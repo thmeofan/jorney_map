@@ -200,32 +200,94 @@ class _TransferScreenState extends State<TransferScreen> {
   }
 
   Future<void> _selectDepartureDateTime(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedDepartureDateTime,
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(primary: AppColors.redColor),
+            dialogBackgroundColor: AppColors.blackColor.withOpacity(0.06),
+          ),
+          child: child!,
+        );
+      },
     );
 
-    if (picked != null) {
-      setState(() {
-        selectedDepartureDateTime = picked;
-      });
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(selectedDepartureDateTime),
+        builder: (context, child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.light(primary: AppColors.redColor),
+              dialogBackgroundColor: AppColors.blackColor.withOpacity(0.06),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          selectedDepartureDateTime = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+      }
     }
   }
 
   Future<void> _selectArrivalDateTime(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: selectedArrivalDateTime,
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(primary: AppColors.redColor),
+            dialogBackgroundColor: AppColors.blackColor.withOpacity(0.06),
+          ),
+          child: child!,
+        );
+      },
     );
 
-    if (picked != null) {
-      setState(() {
-        selectedArrivalDateTime = picked;
-      });
+    if (pickedDate != null) {
+      final TimeOfDay? pickedTime = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.fromDateTime(selectedArrivalDateTime),
+        builder: (context, child) {
+          return Theme(
+            data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.light(primary: AppColors.redColor),
+              dialogBackgroundColor: AppColors.blackColor.withOpacity(0.06),
+            ),
+            child: child!,
+          );
+        },
+      );
+
+      if (pickedTime != null) {
+        setState(() {
+          selectedArrivalDateTime = DateTime(
+            pickedDate.year,
+            pickedDate.month,
+            pickedDate.day,
+            pickedTime.hour,
+            pickedTime.minute,
+          );
+        });
+      }
     }
   }
 }

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
+import 'package:jorney_map/views/app/widgets/input_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../consts/app_text_styles/constructor_text_style.dart';
 import '../../../data/model/jetlag_model.dart';
+import 'jetlag_screen.dart';
 
 class JetlagConstructorScreen extends StatefulWidget {
   @override
@@ -12,6 +17,9 @@ class JetlagConstructorScreen extends StatefulWidget {
 class _JetlagConstructorScreenState extends State<JetlagConstructorScreen> {
   late SharedPreferences _prefs;
   late TimeOfDay selectedTime = TimeOfDay.now();
+  final TextEditingController _homeCountryController = TextEditingController();
+  final TextEditingController _destinationCountryController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -53,57 +61,96 @@ class _JetlagConstructorScreenState extends State<JetlagConstructorScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Enter Jetlag Info'),
+        backgroundColor: Colors.white,
+        title: const Text(
+          'Jetlag',
+          style: ConstructorTextStyle.appBar,
+        ),
+        centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.2),
+          child: Container(
+            height: 0.2,
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.grey,
+                  width: 0.2,
+                ),
+              ),
+            ),
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset('assets/icons/leading.svg'),
+        ),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              decoration: InputDecoration(labelText: 'Home Country'),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(labelText: 'Destination Country'),
-            ),
-            SizedBox(height: 10),
-            Container(
-              width: size.width * 0.43,
-              height: size.height * 0.06,
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.06),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: Colors.grey,
-                  width: 0.5,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              InputWidget(
+                  controller: _homeCountryController,
+                  labelText: 'Home Country'),
+              SizedBox(height: 10),
+              InputWidget(
+                  controller: _destinationCountryController,
+                  labelText: 'Destination Country'),
+              SizedBox(height: 10),
+              Container(
+                width: size.width * 0.95,
+                height: size.height * 0.06,
+                decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.06),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: 0.5,
+                  ),
+                ),
+                child: InkWell(
+                  onTap: () => _selectTime(context),
+                  child: Row(
+                    children: [
+                      SizedBox(width: 5),
+                      SvgPicture.asset('assets/icons/clock.svg'),
+                      SizedBox(width: 10),
+                      Text(' ${selectedTime.format(context)}'),
+                    ],
+                  ),
                 ),
               ),
-              child: InkWell(
-                onTap: () => _selectTime(context),
-                child: Row(
-                  children: [
-                    SizedBox(width: 5),
-                    Icon(Icons.access_time),
-                    SizedBox(width: 10),
-                    Text(' ${selectedTime.format(context)}'),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                String homeCountry =
-                    ''; // Get the value of home country from TextField
-                String destinationCountry =
-                    ''; // Get the value of destination country from TextField
-                saveJetlagInfo(homeCountry, destinationCountry, selectedTime);
-              },
-              child: Text('Save'),
-            ),
-          ],
+              SizedBox(height: 20),
+              ChosenActionButton(
+                text: 'Save',
+                onTap: () {
+                  String homeCountry = _homeCountryController.text;
+                  String destinationCountry =
+                      _destinationCountryController.text;
+                  saveJetlagInfo(homeCountry, destinationCountry, selectedTime);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => JetlagScreen()),
+                  );
+                },
+              )
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _homeCountryController.dispose();
+    _destinationCountryController.dispose();
+    super.dispose();
   }
 }

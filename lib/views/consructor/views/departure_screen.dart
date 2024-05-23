@@ -187,6 +187,14 @@ class _DepartureScreenState extends State<DepartureScreen> {
       initialDate: selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(primary: AppColors.redColor),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null && picked != selectedDate) {
@@ -200,6 +208,14 @@ class _DepartureScreenState extends State<DepartureScreen> {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime,
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(primary: AppColors.redColor),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null && picked != selectedTime) {

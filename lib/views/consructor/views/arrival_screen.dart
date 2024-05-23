@@ -7,7 +7,7 @@ import 'package:jorney_map/views/consructor/views/transfer_screen.dart';
 import '../../../consts/app_colors.dart';
 import '../../../consts/app_text_styles/constructor_text_style.dart';
 import '../../../data/model/arrival_info_model.dart';
-import '../../../data/model/departure_info_model.dart';
+
 import '../../../data/model/travel_model.dart';
 import '../../../util/shared_pref_service.dart';
 import '../../app/widgets/input_widget.dart';
@@ -187,6 +187,14 @@ class _ArrivalScreenState extends State<ArrivalScreen> {
       initialDate: selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(primary: AppColors.redColor),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null && picked != selectedDate) {
@@ -200,6 +208,14 @@ class _ArrivalScreenState extends State<ArrivalScreen> {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTime,
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(primary: AppColors.redColor),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (picked != null && picked != selectedTime) {

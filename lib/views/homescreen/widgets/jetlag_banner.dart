@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jorney_map/consts/app_colors.dart';
 import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
 
+import '../../jetlag/views/jetlag_constructor_screen.dart';
+
 class JetlagBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,13 @@ class JetlagBanner extends StatelessWidget {
           ),
           ChosenActionButton(
             text: 'Start Jetlag',
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => JetlagConstructorScreen()),
+              );
+            },
             color: AppColors.redColor.withOpacity(0.14),
           )
         ],
