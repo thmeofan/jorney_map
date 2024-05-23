@@ -32,6 +32,11 @@ class ConstructorTextStyle {
       fontSize: 16.0,
       fontWeight: FontWeight.w400,
       color: AppColors.blackColor);
+  static const TextStyle appBarSubtitle = TextStyle(
+      fontFamily: 'Inter',
+      fontSize: 14.0,
+      fontWeight: FontWeight.w400,
+      color: Colors.grey);
   static const TextStyle appBarTitle = TextStyle(
       fontFamily: 'Inter',
       fontSize: 20.0,

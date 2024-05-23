@@ -39,6 +39,20 @@ class _SettingsScreenState extends State<SettingsScreen> {
           style: ConstructorTextStyle.appBar,
         ),
         centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.2),
+          child: Container(
+            height: 0.2,
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.grey,
+                  width: 0.2,
+                ),
+              ),
+            ),
+          ),
+        ),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
+import 'package:jorney_map/views/consructor/views/transfer_screen.dart';
 
+import '../../../consts/app_colors.dart';
+import '../../../consts/app_text_styles/constructor_text_style.dart';
 import '../../../data/model/arrival_info_model.dart';
 import '../../../data/model/departure_info_model.dart';
 import '../../../data/model/travel_model.dart';
+import '../../../util/shared_pref_service.dart';
+import '../../app/widgets/input_widget.dart';
 
 class ArrivalScreen extends StatefulWidget {
-  final TravelModel travelModel;
-  const ArrivalScreen({super.key, required this.travelModel});
-
   @override
   _ArrivalScreenState createState() => _ArrivalScreenState();
 }
@@ -23,72 +27,154 @@ class _ArrivalScreenState extends State<ArrivalScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(title: Text('Constructor Screen')),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Column(
+          children: [
+            Text(
+              'New flight',
+              style: ConstructorTextStyle.appBar,
+            ),
+            Text(
+              'Arrival',
+              style: ConstructorTextStyle.appBarTitle,
+            ),
+          ],
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.2),
+          child: Container(
+            height: 0.2,
+            decoration: const BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: Colors.grey,
+                  width: 0.2,
+                ),
+              ),
+            ),
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset('assets/icons/leading.svg'),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextFormField(
+            Text('Arrival at destination'),
+            InputWidget(
               controller: countryController,
-              decoration: InputDecoration(labelText: 'Country'),
+              labelText: 'Country of arrival',
             ),
-            TextFormField(
+            SizedBox(height: 8),
+            InputWidget(
               controller: cityController,
-              decoration: InputDecoration(labelText: 'City'),
+              labelText: 'City of arrival',
             ),
-            TextFormField(
+            SizedBox(height: 8),
+            InputWidget(
               controller: airportController,
-              decoration: InputDecoration(labelText: 'Airport'),
+              labelText: 'Airport name',
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 8),
             Row(
               children: [
-                Text('Date: ${DateFormat('yyyy-MM-dd').format(selectedDate)}'),
-                SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () => _selectDate(context),
-                  child: Text('Select Date'),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Text('Time: ${selectedTime.format(context)}'),
-                SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () => _selectTime(context),
-                  child: Text('Select Time'),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(
-                  context,
-                  TravelModel(
-                    departureInfo: DepartureInfoModel(
-                      country: countryController.text,
-                      city: cityController.text,
-                      airport: airportController.text,
-                      date: selectedDate,
-                      time: selectedTime,
-                    ),
-                    arrivalInfo: ArrivalInfoModel(
-                      country: '',
-                      city: '',
-                      airport: '',
-                      date: DateTime.now(),
-                      time: TimeOfDay.now(),
+                Container(
+                  width: size.width * 0.43,
+                  height: size.height * 0.06,
+                  decoration: BoxDecoration(
+                    color: AppColors.blackColor.withOpacity(0.06),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 0.5,
                     ),
                   ),
-                );
-              },
-              child: Text('Save Travel Model'),
+                  child: InkWell(
+                    onTap: () => _selectDate(context),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 5),
+                        SvgPicture.asset('assets/icons/calendar.svg'),
+                        SizedBox(width: 10),
+                        Text(
+                            ' ${DateFormat('dd.MM.yyyy').format(selectedDate)}'),
+                      ],
+                    ),
+                  ),
+                ),
+                Spacer(),
+                Container(
+                  width: size.width * 0.43,
+                  height: size.height * 0.06,
+                  decoration: BoxDecoration(
+                    color: AppColors.blackColor.withOpacity(0.06),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 0.5,
+                    ),
+                  ),
+                  child: InkWell(
+                    onTap: () => _selectTime(context),
+                    child: Row(
+                      children: [
+                        SizedBox(width: 5),
+                        SvgPicture.asset('assets/icons/clock.svg'),
+                        SizedBox(width: 10),
+                        Text(' ${selectedTime.format(context)}'),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
+            SizedBox(height: 8),
+            SizedBox(height: 20),
+            ChosenActionButton(
+              text: 'Next',
+              onTap: () async {
+                final sharedPrefsService = SharedPrefsService();
+                final travelModelList =
+                    await sharedPrefsService.getTravelModelList();
+
+                if (travelModelList.isNotEmpty) {
+                  final lastTravelModel = travelModelList.last;
+                  final arrivalInfo = ArrivalInfoModel(
+                    country: countryController.text,
+                    city: cityController.text,
+                    airport: airportController.text,
+                    date: selectedDate,
+                    time: selectedTime,
+                  );
+
+                  final updatedTravelModel = TravelModel(
+                    departureInfo: lastTravelModel.departureInfo,
+                    arrivalInfo: arrivalInfo,
+                    transfers: lastTravelModel.transfers,
+                  );
+
+                  travelModelList[travelModelList.length - 1] =
+                      updatedTravelModel;
+                  await sharedPrefsService.saveTravelModelList(travelModelList);
+
+                  // Navigate to the TransferScreen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TransferScreen()),
+                  );
+                }
+              },
+            )
           ],
         ),
       ),

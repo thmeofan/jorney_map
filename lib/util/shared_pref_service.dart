@@ -3,22 +3,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/model/travel_model.dart';
 
-class SharedPreferencesService {
-  static const String travelModelKey = 'travelModel';
+class SharedPrefsService {
+  static const String _travelModelListKey = 'travelModelList';
 
-  Future<void> saveTravelModel(TravelModel travelModel) async {
+  Future<void> saveTravelModelList(List<TravelModel> travelModelList) async {
     final prefs = await SharedPreferences.getInstance();
-    final travelModelJson = jsonEncode(travelModel.toJson());
-    await prefs.setString(travelModelKey, travelModelJson);
+    final jsonModelList =
+        travelModelList.map((model) => model.toJson()).toList();
+    await prefs.setString(_travelModelListKey, jsonEncode(jsonModelList));
   }
 
-  Future<TravelModel?> getTravelModel() async {
+  Future<List<TravelModel>> getTravelModelList() async {
     final prefs = await SharedPreferences.getInstance();
-    final travelModelJson = prefs.getString(travelModelKey);
-    if (travelModelJson != null) {
-      final travelModelMap = jsonDecode(travelModelJson);
-      return TravelModel.fromJson(travelModelMap);
+    final jsonModelList = prefs.getString(_travelModelListKey);
+    if (jsonModelList == null) {
+      return [];
     }
-    return null;
+    final decodedList = jsonDecode(jsonModelList) as List<dynamic>;
+    return decodedList.map((model) => TravelModel.fromJson(model)).toList();
+  }
+
+  Future<void> clearTravelModelList() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_travelModelListKey);
   }
 }

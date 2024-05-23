@@ -62,6 +62,24 @@ class _InputWidgetState extends State<InputWidget> {
         decoration: BoxDecoration(
           color: AppColors.blackColor.withOpacity(0.06),
           borderRadius: BorderRadius.circular(12),
+          border: Border(
+            right: BorderSide(
+              color: Colors.grey,
+              width: 0.5,
+            ),
+            left: BorderSide(
+              color: Colors.grey,
+              width: 0.5,
+            ),
+            top: BorderSide(
+              color: Colors.grey,
+              width: 0.5,
+            ),
+            bottom: BorderSide(
+              color: Colors.grey,
+              width: 0.5,
+            ),
+          ),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: TextField(

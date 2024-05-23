@@ -31,8 +31,8 @@ abstract class AppRoutes {
       //   child = ArrivalScreen(
       //     travelModel: null,
       //   );
-      case transfer:
-        child = TransferScreen();
+      // case transfer:
+      //   child = TransferScreen();
       default:
         child = BlocProvider(
           create: (context) => onboardingCubit,
