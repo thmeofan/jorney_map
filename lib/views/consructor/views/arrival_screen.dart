@@ -6,6 +6,7 @@ import 'package:jorney_map/views/consructor/views/transfer_screen.dart';
 
 import '../../../consts/app_colors.dart';
 import '../../../consts/app_text_styles/constructor_text_style.dart';
+import '../../../consts/app_text_styles/home_screen_text_style.dart';
 import '../../../data/model/arrival_info_model.dart';
 
 import '../../../data/model/travel_model.dart';
@@ -31,7 +32,7 @@ class _ArrivalScreenState extends State<ArrivalScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Column(
+        title: Column(
           children: [
             Text(
               'New flight',
@@ -70,7 +71,10 @@ class _ArrivalScreenState extends State<ArrivalScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Arrival at destination'),
+            Text(
+              'Arrival at destination',
+              style: HomeScreenTextStyle.partLabel,
+            ),
             InputWidget(
               controller: countryController,
               labelText: 'Country of arrival',
@@ -143,35 +147,49 @@ class _ArrivalScreenState extends State<ArrivalScreen> {
             ChosenActionButton(
               text: 'Next',
               onTap: () async {
-                final sharedPrefsService = SharedPrefsService();
-                final travelModelList =
-                    await sharedPrefsService.getTravelModelList();
-
-                if (travelModelList.isNotEmpty) {
-                  final lastTravelModel = travelModelList.last;
-                  final arrivalInfo = ArrivalInfoModel(
-                    country: countryController.text,
-                    city: cityController.text,
-                    airport: airportController.text,
-                    date: selectedDate,
-                    time: selectedTime,
+                if (countryController.text.isEmpty ||
+                    cityController.text.isEmpty ||
+                    airportController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: AppColors.whiteColor,
+                      content: Text(
+                        'Please fill in all the fields.',
+                        style: HomeScreenTextStyle.textButton,
+                      ),
+                    ),
                   );
+                } else {
+                  final sharedPrefsService = SharedPrefsService();
+                  final travelModelList =
+                      await sharedPrefsService.getTravelModelList();
 
-                  final updatedTravelModel = TravelModel(
-                    departureInfo: lastTravelModel.departureInfo,
-                    arrivalInfo: arrivalInfo,
-                    transfers: lastTravelModel.transfers,
-                  );
+                  if (travelModelList.isNotEmpty) {
+                    final lastTravelModel = travelModelList.last;
+                    final arrivalInfo = ArrivalInfoModel(
+                      country: countryController.text,
+                      city: cityController.text,
+                      airport: airportController.text,
+                      date: selectedDate,
+                      time: selectedTime,
+                    );
 
-                  travelModelList[travelModelList.length - 1] =
-                      updatedTravelModel;
-                  await sharedPrefsService.saveTravelModelList(travelModelList);
+                    final updatedTravelModel = TravelModel(
+                      departureInfo: lastTravelModel.departureInfo,
+                      arrivalInfo: arrivalInfo,
+                      transfers: lastTravelModel.transfers,
+                    );
 
-                  // Navigate to the TransferScreen
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TransferScreen()),
-                  );
+                    travelModelList[travelModelList.length - 1] =
+                        updatedTravelModel;
+                    await sharedPrefsService
+                        .saveTravelModelList(travelModelList);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => TransferScreen()),
+                    );
+                  }
                 }
               },
             )

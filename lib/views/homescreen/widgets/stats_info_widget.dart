@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jorney_map/consts/app_text_styles/home_screen_text_style.dart';
 
 import '../../../data/model/travel_model.dart';
 
@@ -11,72 +12,127 @@ class StatsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (travelList.isEmpty) {
-      return Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(0, 2),
+      return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Column(
-              children: [
-                Text('Visited Countries'),
-                Text('0'),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(0, 2),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset('assets/icons/visited.svg'),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Visited',
+                        style: HomeScreenTextStyle.statsTitle,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        '0',
+                        style: HomeScreenTextStyle.statsSubtitle,
+                      ),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-            child: Column(
-              children: [
-                Text('Total Time in Flights'),
-                Text('0 hours 0 minutes'),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 3,
-                  offset: Offset(0, 2),
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 3,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/icons/spend_in_flight.svg'),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      'Total in Flights',
+                      style: HomeScreenTextStyle.statsTitle,
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    Text('0 hours ', style: HomeScreenTextStyle.statsSubtitle),
+                  ],
                 ),
-              ],
+              ),
             ),
-            child: Column(
-              children: [
-                Text('Longest Flight'),
-                Text('0 to 0'),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 3,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset('assets/icons/jetlag.svg'),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Longest Flight',
+                        style: HomeScreenTextStyle.statsTitle,
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Text('none', style: HomeScreenTextStyle.statsSubtitle),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     }
 
@@ -159,13 +215,26 @@ class StatsWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/icons/visited.svg'),
-                  Text('Visited Countries'),
-                  Text(visitedCountries.toString()),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/icons/visited.svg'),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Visited Countries',
+                      style: HomeScreenTextStyle.statsTitle,
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(visitedCountries.toString(),
+                        style: HomeScreenTextStyle.statsSubtitle),
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -185,15 +254,27 @@ class StatsWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/icons/spend_in_flight.svg'),
-                  Text('Total Time \nin Flights'),
-                  Text(
-                    '${totalTimeInFlights.inHours}h ${totalTimeInFlights.inMinutes.remainder(60)}m',
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/icons/spend_in_flight.svg'),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Total Time in Flights',
+                      style: HomeScreenTextStyle.statsTitle,
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                        '${totalTimeInFlights.inHours}h ${totalTimeInFlights.inMinutes.remainder(60)}m',
+                        style: HomeScreenTextStyle.statsSubtitle),
+                  ],
+                ),
               ),
             ),
             SizedBox(
@@ -213,15 +294,27 @@ class StatsWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SvgPicture.asset('assets/icons/jetlag.svg'),
-                  Text('Longest Flight'),
-                  Text(
-                    '${longestFlight.departureInfo.city} to ${longestFlight.arrivalInfo.city}',
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SvgPicture.asset('assets/icons/jetlag.svg'),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Longest Flight',
+                      style: HomeScreenTextStyle.statsTitle,
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                        '${longestFlight.departureInfo.city} to ${longestFlight.arrivalInfo.city}',
+                        style: HomeScreenTextStyle.statsSubtitle),
+                  ],
+                ),
               ),
             ),
           ],

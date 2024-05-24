@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jorney_map/consts/app_colors.dart';
+import 'package:jorney_map/consts/app_text_styles/home_screen_text_style.dart';
 import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
 import 'package:jorney_map/views/app/widgets/input_widget.dart';
 
@@ -18,7 +20,18 @@ class _PlanConstructorScreenState extends State<PlanConstructorScreen> {
   void _createPlan() {
     final title = _titleController.text.trim();
     final description = _descriptionController.text.trim();
-    if (title.isNotEmpty && description.isNotEmpty) {
+
+    if (title.isEmpty || description.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.whiteColor,
+          content: Text(
+            'Please fill in all the fields.',
+            style: HomeScreenTextStyle.textButton,
+          ),
+        ),
+      );
+    } else {
       widget.onPlanCreated(title, description);
       Navigator.pop(context);
     }

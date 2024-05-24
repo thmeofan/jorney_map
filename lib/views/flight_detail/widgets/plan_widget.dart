@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jorney_map/data/model/plan_model.dart';
 
+import '../../../consts/app_text_styles/home_screen_text_style.dart';
+
 class PlanWidget extends StatelessWidget {
   final PlanModel planModel;
 
@@ -20,7 +22,7 @@ class PlanWidget extends StatelessWidget {
               SizedBox(
                 width: 8,
               ),
-              Text(planModel.title)
+              Text(planModel.title, style: HomeScreenTextStyle.bannerTitle)
             ],
           ),
           SizedBox(
@@ -40,7 +42,8 @@ class PlanWidget extends StatelessWidget {
                 ),
               ],
             ),
-            child: Flexible(child: Text(planModel.description)),
+            child: Text(planModel.description,
+                style: HomeScreenTextStyle.bannerText),
           )
         ],
       ),

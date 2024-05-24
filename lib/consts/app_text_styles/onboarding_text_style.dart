@@ -20,4 +20,10 @@ class OnboardingTextStyle {
     fontWeight: FontWeight.w400,
     color: AppColors.whiteColor,
   );
+  static const TextStyle buttonRed = TextStyle(
+    fontFamily: 'SF Pro Text',
+    fontSize: 16.0,
+    fontWeight: FontWeight.w400,
+    color: AppColors.redColor,
+  );
 }

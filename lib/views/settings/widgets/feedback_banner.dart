@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:jorney_map/consts/app_colors.dart';
-import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
+import 'package:jorney_map/consts/app_text_styles/home_screen_text_style.dart';
 
 class FeedbackBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -29,18 +26,12 @@ class FeedbackBanner extends StatelessWidget {
                 children: [
                   Text(
                     'Give us your feedback',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.0,
-                    ),
+                    style: HomeScreenTextStyle.bannerTitle,
                   ),
                   SizedBox(height: 8.0),
                   Text(
                     'Help us improve the app with\nyour opinion.',
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 12.0,
-                    ),
+                    style: HomeScreenTextStyle.bannerText,
                   ),
                 ],
               ),

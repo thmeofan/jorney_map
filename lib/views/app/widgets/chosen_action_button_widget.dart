@@ -5,15 +5,17 @@ import '../../../consts/app_text_styles/onboarding_text_style.dart';
 
 class ChosenActionButton extends StatelessWidget {
   const ChosenActionButton({
-    super.key,
+    Key? key,
     required this.text,
     required this.onTap,
     this.color = AppColors.redColor,
-  });
+    this.textStyle,
+  }) : super(key: key);
 
   final String text;
   final Function() onTap;
   final Color color;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class ChosenActionButton extends StatelessWidget {
           ),
           child: Text(
             text,
-            style: OnboardingTextStyle.button,
+            style: textStyle ?? OnboardingTextStyle.button,
           ),
         ),
       ),

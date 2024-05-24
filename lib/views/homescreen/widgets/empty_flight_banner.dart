@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:jorney_map/consts/app_text_styles/home_screen_text_style.dart';
 
 class EmptyFlightBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -32,21 +32,12 @@ class EmptyFlightBanner extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'No added flight yet',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16.0,
-                  ),
-                ),
+                const Text('No added flight yet',
+                    style: HomeScreenTextStyle.bannerTitle),
                 SizedBox(height: 8.0),
                 Text(
-                  'Tap add flight button below to necessary details about your first flight.',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 14.0,
-                  ),
-                ),
+                    'Tap add flight button below to necessary details about your first flight.',
+                    style: HomeScreenTextStyle.bannerText),
               ],
             ),
           ),

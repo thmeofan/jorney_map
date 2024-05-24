@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:jorney_map/consts/app_colors.dart';
+import 'package:jorney_map/consts/app_text_styles/home_screen_text_style.dart';
+import 'package:jorney_map/consts/app_text_styles/onboarding_text_style.dart';
 import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
 
 import '../../../data/model/travel_model.dart';
@@ -47,8 +49,14 @@ class TravelInfoWidget extends StatelessWidget {
                 ),
                 Column(
                   children: [
-                    Text(travelModel.departureInfo.country),
-                    Text(travelModel.departureInfo.city)
+                    Text(
+                      travelModel.departureInfo.country,
+                      style: HomeScreenTextStyle.flightCountry,
+                    ),
+                    Text(
+                      travelModel.departureInfo.city,
+                      style: HomeScreenTextStyle.flightCity,
+                    )
                   ],
                 ),
                 Spacer(),
@@ -56,8 +64,14 @@ class TravelInfoWidget extends StatelessWidget {
                 Spacer(),
                 Column(
                   children: [
-                    Text(travelModel.arrivalInfo.country),
-                    Text(travelModel.arrivalInfo.city)
+                    Text(
+                      travelModel.arrivalInfo.country,
+                      style: HomeScreenTextStyle.flightCountry,
+                    ),
+                    Text(
+                      travelModel.arrivalInfo.city,
+                      style: HomeScreenTextStyle.flightCity,
+                    )
                   ],
                 ),
                 SizedBox(
@@ -88,11 +102,17 @@ class TravelInfoWidget extends StatelessWidget {
               Spacer(),
               Column(
                 children: [
-                  Text(_formatDate(travelModel.departureInfo.date)),
+                  Text(
+                    _formatDate(travelModel.departureInfo.date),
+                    style: HomeScreenTextStyle.flightDate,
+                  ),
                   SizedBox(
                     height: size.width * 0.015,
                   ),
-                  Text(_formatDate(travelModel.departureInfo.date)),
+                  Text(
+                    _formatDate(travelModel.departureInfo.date),
+                    style: HomeScreenTextStyle.flightDate,
+                  ),
                 ],
               ),
               SizedBox(
@@ -119,9 +139,12 @@ class TravelInfoWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset('assets/icons/book.svg'),
-                Text('Plans'),
+                Text(
+                  'Plans',
+                  style: HomeScreenTextStyle.plansLabel,
+                ),
                 Spacer(),
-                Text('2 plans'),
+                Text('2 plans', style: HomeScreenTextStyle.plansText),
                 SvgPicture.asset('assets/icons/arrow.svg'),
               ],
             ),
@@ -129,6 +152,7 @@ class TravelInfoWidget extends StatelessWidget {
           ChosenActionButton(
             text: 'See flight details',
             color: AppColors.redColor.withOpacity(0.14),
+            textStyle: OnboardingTextStyle.buttonRed,
             onTap: () {
               Navigator.push(
                 context,

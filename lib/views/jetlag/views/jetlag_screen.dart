@@ -4,6 +4,7 @@ import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../consts/app_text_styles/constructor_text_style.dart';
+import '../../../consts/app_text_styles/home_screen_text_style.dart';
 import '../../homescreen/views/home_screen.dart';
 
 class JetlagScreen extends StatefulWidget {
@@ -86,41 +87,43 @@ class _JetlagScreenState extends State<JetlagScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Time to go to bed: ${_time ?? 'N/A'}',
-                      style: TextStyle(fontSize: 18.0),
-                    ),
+                    Text('Time to go to bed: ',
+                        style: HomeScreenTextStyle.partLabel),
                     SizedBox(height: 8.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgPicture.asset('assets/icons/clock.svg'),
-                        SizedBox(width: 4.0),
-                        Text(
-                          ' ${_time ?? 'N/A'}',
-                          style: TextStyle(fontSize: 18.0),
+                        SvgPicture.asset(
+                          'assets/icons/clock.svg',
+                          width: 28,
                         ),
+                        SizedBox(width: 4.0),
+                        Text(' ${_time ?? 'N/A'}',
+                            style: HomeScreenTextStyle.jetlagTime),
                       ],
                     ),
+                    SizedBox(height: 10.0),
                     Row(
                       children: [
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Country of departure'),
-                            Text(
-                              _homeCountry ?? 'N/A',
-                              style: TextStyle(fontSize: 18.0),
-                            ),
+                            Text('Country of departure',
+                                style: HomeScreenTextStyle.bannerText),
+                            SizedBox(height: 4.0),
+                            Text(_homeCountry ?? 'N/A',
+                                style: HomeScreenTextStyle.flightCountry),
                           ],
                         ),
                         Spacer(),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Country of arrival'),
-                            Text(
-                              _destinationCountry ?? 'N/A',
-                              style: TextStyle(fontSize: 18.0),
-                            ),
+                            Text('Country of arrival',
+                                style: HomeScreenTextStyle.bannerText),
+                            SizedBox(height: 4.0),
+                            Text(_destinationCountry ?? 'N/A',
+                                style: HomeScreenTextStyle.flightCountry),
                           ],
                         )
                       ],
@@ -129,6 +132,7 @@ class _JetlagScreenState extends State<JetlagScreen> {
                   ],
                 ),
               ),
+              SizedBox(height: 4.0),
               ChosenActionButton(
                   text: 'Done',
                   onTap: () {

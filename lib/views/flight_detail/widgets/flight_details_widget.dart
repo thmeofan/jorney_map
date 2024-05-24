@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../consts/app_text_styles/home_screen_text_style.dart';
 import '../../../data/model/travel_model.dart';
 import 'info_widget.dart';
 
@@ -19,7 +20,10 @@ class FlightDetailsWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Flight info'),
+            Text(
+              'Flight info',
+              style: HomeScreenTextStyle.partLabel,
+            ),
             SizedBox(
               height: 8,
             ),

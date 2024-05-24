@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jorney_map/consts/app_colors.dart';
+import 'package:jorney_map/consts/app_text_styles/onboarding_text_style.dart';
 import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
 
+import '../../../consts/app_text_styles/home_screen_text_style.dart';
 import '../../jetlag/views/jetlag_constructor_screen.dart';
 
 class JetlagBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Container(
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
@@ -38,21 +39,12 @@ class JetlagBanner extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Jetlag helper',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
-                    ),
+                    Text('Jetlag helper',
+                        style: HomeScreenTextStyle.bannerTitle),
                     SizedBox(height: 8.0),
                     Text(
-                      'Will help you to go bed in time for a better adaptation.',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14.0,
-                      ),
-                    ),
+                        'Will help you to go bed in time for a better adaptation.',
+                        style: HomeScreenTextStyle.bannerText),
                   ],
                 ),
               ),
@@ -60,6 +52,7 @@ class JetlagBanner extends StatelessWidget {
           ),
           ChosenActionButton(
             text: 'Start Jetlag',
+            textStyle: OnboardingTextStyle.buttonRed,
             onTap: () {
               Navigator.push(
                 context,

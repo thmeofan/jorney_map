@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:jorney_map/consts/app_text_styles/home_screen_text_style.dart';
 
 import '../../../consts/app_text_styles/constructor_text_style.dart';
 import '../../../data/model/travel_model.dart';
@@ -125,7 +125,11 @@ class _StatsScreenState extends State<StatsScreen> {
         ),
       ),
       body: travelList.isEmpty
-          ? Center(child: Text('No travel data available'))
+          ? Center(
+              child: Text(
+              'No travel data available',
+              style: HomeScreenTextStyle.partLabel,
+            ))
           : Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -136,7 +140,10 @@ class _StatsScreenState extends State<StatsScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Visited Countries:'),
+                        Text(
+                          'Visited Countries:',
+                          style: HomeScreenTextStyle.partLabel,
+                        ),
                         Column(
                           children: visitedCountries
                               .map((country) => Container(
@@ -162,7 +169,11 @@ class _StatsScreenState extends State<StatsScreen> {
                                         SizedBox(
                                           width: 5,
                                         ),
-                                        Text(country),
+                                        Text(
+                                          country,
+                                          style:
+                                              HomeScreenTextStyle.flightCountry,
+                                        ),
                                       ],
                                     ),
                                   ))
@@ -171,7 +182,10 @@ class _StatsScreenState extends State<StatsScreen> {
                       ],
                     ),
                   ),
-                  Text('Spend in flights'),
+                  Text(
+                    'Spend in flights',
+                    style: HomeScreenTextStyle.partLabel,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
@@ -195,13 +209,18 @@ class _StatsScreenState extends State<StatsScreen> {
                             SvgPicture.asset('assets/icons/clock.svg'),
                             Spacer(),
                             Text(
-                                '${totalTimeInFlights.inHours} hours ${totalTimeInFlights.inMinutes.remainder(60)} minutes'),
+                              '${totalTimeInFlights.inHours} hours ${totalTimeInFlights.inMinutes.remainder(60)} minutes',
+                              style: HomeScreenTextStyle.partLabel,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   ),
-                  Text('The largest flight took'),
+                  Text(
+                    'The largest flight took',
+                    style: HomeScreenTextStyle.partLabel,
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: longestFlight != null
@@ -229,11 +248,14 @@ class _StatsScreenState extends State<StatsScreen> {
                                   ),
                                   Flexible(
                                     child: Text(
-                                        '${longestFlight.departureInfo.city}-${longestFlight.arrivalInfo.city}'),
+                                      '${longestFlight.departureInfo.city}-${longestFlight.arrivalInfo.city}',
+                                      style: HomeScreenTextStyle.flightCountry,
+                                    ),
                                   ),
                                   Spacer(),
                                   Text(
-                                      '${longestFlight.arrivalInfo.date.difference(longestFlight.departureInfo.date).inHours} hours'),
+                                      '${longestFlight.arrivalInfo.date.difference(longestFlight.departureInfo.date).inHours} hours',
+                                      style: HomeScreenTextStyle.partLabel),
                                 ],
                               ),
                             ),

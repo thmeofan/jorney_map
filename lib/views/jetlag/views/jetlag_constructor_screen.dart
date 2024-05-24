@@ -130,14 +130,24 @@ class _JetlagConstructorScreenState extends State<JetlagConstructorScreen> {
               ChosenActionButton(
                 text: 'Save',
                 onTap: () {
-                  String homeCountry = _homeCountryController.text;
-                  String destinationCountry =
-                      _destinationCountryController.text;
-                  saveJetlagInfo(homeCountry, destinationCountry, selectedTime);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => JetlagScreen()),
-                  );
+                  if (_homeCountryController.text.isEmpty ||
+                      _destinationCountryController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Please fill in all the fields.'),
+                      ),
+                    );
+                  } else {
+                    String homeCountry = _homeCountryController.text;
+                    String destinationCountry =
+                        _destinationCountryController.text;
+                    saveJetlagInfo(
+                        homeCountry, destinationCountry, selectedTime);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => JetlagScreen()),
+                    );
+                  }
                 },
               )
             ],

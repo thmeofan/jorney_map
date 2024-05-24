@@ -6,6 +6,7 @@ import 'package:jorney_map/views/homescreen/views/home_screen.dart';
 
 import '../../../consts/app_colors.dart';
 import '../../../consts/app_text_styles/constructor_text_style.dart';
+import '../../../consts/app_text_styles/home_screen_text_style.dart';
 import '../../../data/model/transfer_model.dart';
 import '../../../data/model/travel_model.dart';
 import '../../../util/shared_pref_service.dart';
@@ -32,7 +33,7 @@ class _TransferScreenState extends State<TransferScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Column(
+        title: Column(
           children: [
             Text(
               'New flight',
@@ -71,7 +72,10 @@ class _TransferScreenState extends State<TransferScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Add Transfer Info'),
+            Text(
+              'Add Transfer Info',
+              style: HomeScreenTextStyle.partLabel,
+            ),
             InputWidget(
               controller: countryController,
               labelText: 'Country',
@@ -91,7 +95,10 @@ class _TransferScreenState extends State<TransferScreen> {
               children: [
                 Column(
                   children: [
-                    Text('Departure'),
+                    Text(
+                      'Departure',
+                      style: HomeScreenTextStyle.partLabel,
+                    ),
                     Container(
                       width: size.width * 0.43,
                       height: size.height * 0.06,
@@ -121,7 +128,10 @@ class _TransferScreenState extends State<TransferScreen> {
                 Spacer(),
                 Column(
                   children: [
-                    Text('Arrival'),
+                    Text(
+                      'Arrival',
+                      style: HomeScreenTextStyle.partLabel,
+                    ),
                     Container(
                       width: size.width * 0.43,
                       height: size.height * 0.06,
@@ -154,41 +164,56 @@ class _TransferScreenState extends State<TransferScreen> {
             ChosenActionButton(
               text: 'Done',
               onTap: () async {
-                final sharedPrefsService = SharedPrefsService();
-                final travelModelList =
-                    await sharedPrefsService.getTravelModelList();
-
-                if (travelModelList.isNotEmpty) {
-                  final lastTravelModel = travelModelList.last;
-                  final transfer = TransferModel(
-                    country: countryController.text,
-                    city: cityController.text,
-                    airport: airportController.text,
-                    departureDateTime: selectedDepartureDateTime,
-                    arrivalDateTime: selectedArrivalDateTime,
-                  );
-
-                  final updatedTransfers = [
-                    ...lastTravelModel.transfers,
-                    transfer
-                  ];
-
-                  final updatedTravelModel = TravelModel(
-                    departureInfo: lastTravelModel.departureInfo,
-                    arrivalInfo: lastTravelModel.arrivalInfo,
-                    transfers: updatedTransfers,
-                  );
-
-                  travelModelList[travelModelList.length - 1] =
-                      updatedTravelModel;
-                  await sharedPrefsService.saveTravelModelList(travelModelList);
-
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
+                if (countryController.text.isEmpty ||
+                    cityController.text.isEmpty ||
+                    airportController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: AppColors.whiteColor,
+                      content: Text(
+                        'Please fill in all the fields.',
+                        style: HomeScreenTextStyle.textButton,
+                      ),
                     ),
                   );
+                } else {
+                  final sharedPrefsService = SharedPrefsService();
+                  final travelModelList =
+                      await sharedPrefsService.getTravelModelList();
+
+                  if (travelModelList.isNotEmpty) {
+                    final lastTravelModel = travelModelList.last;
+                    final transfer = TransferModel(
+                      country: countryController.text,
+                      city: cityController.text,
+                      airport: airportController.text,
+                      departureDateTime: selectedDepartureDateTime,
+                      arrivalDateTime: selectedArrivalDateTime,
+                    );
+
+                    final updatedTransfers = [
+                      ...lastTravelModel.transfers,
+                      transfer
+                    ];
+
+                    final updatedTravelModel = TravelModel(
+                      departureInfo: lastTravelModel.departureInfo,
+                      arrivalInfo: lastTravelModel.arrivalInfo,
+                      transfers: updatedTransfers,
+                    );
+
+                    travelModelList[travelModelList.length - 1] =
+                        updatedTravelModel;
+                    await sharedPrefsService
+                        .saveTravelModelList(travelModelList);
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(),
+                      ),
+                    );
+                  }
                 }
               },
             ),

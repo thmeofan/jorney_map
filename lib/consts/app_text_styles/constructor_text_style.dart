@@ -30,23 +30,18 @@ class ConstructorTextStyle {
   static const TextStyle appBar = TextStyle(
       fontFamily: 'Inter',
       fontSize: 16.0,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
       color: AppColors.blackColor);
   static const TextStyle appBarSubtitle = TextStyle(
       fontFamily: 'Inter',
       fontSize: 14.0,
-      fontWeight: FontWeight.w400,
+      fontWeight: FontWeight.w500,
       color: Colors.grey);
-  static const TextStyle appBarTitle = TextStyle(
+  static TextStyle appBarTitle = TextStyle(
       fontFamily: 'Inter',
-      fontSize: 20.0,
+      fontSize: 14.0,
       fontWeight: FontWeight.w400,
-      color: AppColors.blackColor);
-  static const TextStyle add = TextStyle(
-      fontFamily: 'Inter',
-      fontSize: 16.0,
-      fontWeight: FontWeight.w300,
-      color: AppColors.lightPurpleColor);
+      color: AppColors.blackColor.withOpacity(0.4));
 
   static const TextStyle lable = TextStyle(
     fontFamily: 'Inter',
@@ -59,11 +54,5 @@ class ConstructorTextStyle {
     fontSize: 14.0,
     fontWeight: FontWeight.w400,
     color: Colors.white,
-  );
-  static TextStyle snackBar = TextStyle(
-    fontFamily: 'Inter',
-    fontSize: 14.0,
-    fontWeight: FontWeight.w400,
-    color: AppColors.lightPurpleColor,
   );
 }

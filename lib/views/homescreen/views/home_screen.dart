@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:jorney_map/consts/app_colors.dart';
+import 'package:jorney_map/consts/app_text_styles/home_screen_text_style.dart';
 import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
 import 'package:jorney_map/views/homescreen/widgets/empty_flight_banner.dart';
 import 'package:jorney_map/views/homescreen/widgets/jetlag_banner.dart';
 import 'package:jorney_map/views/statistics/views/stats_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../consts/app_text_styles/constructor_text_style.dart';
 import '../../../data/model/travel_model.dart';
 import '../../../util/app_routes.dart';
 import '../../../util/shared_pref_service.dart';
@@ -59,10 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
     int _currentPage = 0;
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: const Text(
           'Flights',
-          style: ConstructorTextStyle.appBar,
+          style: HomeScreenTextStyle.title,
         ),
         centerTitle: false,
         bottom: PreferredSize(
@@ -89,7 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Row(
               children: [
                 SvgPicture.asset('assets/icons/settings.svg'),
-                Text('Settings')
+                Text(
+                  'Settings',
+                  style: HomeScreenTextStyle.settings,
+                )
               ],
             ),
           )
@@ -102,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Your flight'),
+                Text('Your flight', style: HomeScreenTextStyle.partLabel),
                 travelList.isEmpty
                     ? EmptyFlightBanner()
                     : SizedBox(
@@ -123,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                             ),
                             Positioned(
-                              bottom: 20,
+                              bottom: 15,
                               left: 0,
                               right: 0,
                               child: Row(
@@ -166,7 +170,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     });
                   },
                 ),
-                Text('Jetlag'),
+                Text('Jetlag', style: HomeScreenTextStyle.partLabel),
+                SizedBox(
+                  height: 8,
+                ),
                 _homeCountry != null &&
                         _destinationCountry != null &&
                         _time != null
@@ -181,7 +188,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Row(
                   children: [
-                    Text('Flight statistics'),
+                    Text(
+                      'Flight statistics',
+                      style: HomeScreenTextStyle.partLabel,
+                    ),
                     Spacer(),
                     TextButton(
                         onPressed: () {
@@ -191,7 +201,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 builder: (context) => StatsScreen()),
                           );
                         },
-                        child: Text('See stats'))
+                        child: Text(
+                          'See stats',
+                          style: HomeScreenTextStyle.textButton,
+                        ))
                   ],
                 ),
                 StatsWidget(travelList: travelList),

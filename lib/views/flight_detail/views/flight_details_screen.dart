@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:jorney_map/consts/app_text_styles/home_screen_text_style.dart';
 import 'package:jorney_map/views/flight_detail/views/plan_constructor_screen.dart';
 import 'package:jorney_map/views/flight_detail/widgets/empty_plans_banner.dart';
-import 'package:jorney_map/views/flight_detail/widgets/info_widget.dart';
-import 'package:intl/intl.dart';
 import 'package:jorney_map/views/flight_detail/widgets/plan_widget.dart';
 import '../../../consts/app_text_styles/constructor_text_style.dart';
 import '../../../data/model/plan_model.dart';
@@ -81,9 +80,8 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
       body: Column(
         children: [
           Container(
-            // margin: EdgeInsets.all(5),
             padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.white,
               border: Border(
                 bottom: BorderSide(
@@ -97,8 +95,14 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
               children: [
                 Column(
                   children: [
-                    Text(widget.travelModel.departureInfo.country),
-                    Text(widget.travelModel.departureInfo.city)
+                    Text(
+                      widget.travelModel.departureInfo.country,
+                      style: HomeScreenTextStyle.flightCountry,
+                    ),
+                    Text(
+                      widget.travelModel.departureInfo.city,
+                      style: HomeScreenTextStyle.flightCity,
+                    )
                   ],
                 ),
                 Spacer(),
@@ -106,8 +110,14 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
                 Spacer(),
                 Column(
                   children: [
-                    Text(widget.travelModel.arrivalInfo.country),
-                    Text(widget.travelModel.arrivalInfo.city)
+                    Text(
+                      widget.travelModel.arrivalInfo.country,
+                      style: HomeScreenTextStyle.flightCountry,
+                    ),
+                    Text(
+                      widget.travelModel.arrivalInfo.city,
+                      style: HomeScreenTextStyle.flightCity,
+                    )
                   ],
                 ),
                 SizedBox(
@@ -202,41 +212,50 @@ class _FlightDetailsScreenState extends State<FlightDetailsScreen> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 16.0),
-                  if (_showFlightDetails)
-                    FlightDetailsWidget(travelModel: widget.travelModel),
-                  if (!_showFlightDetails)
-                    Column(
-                      children: [
-                        Row(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 16.0),
+                    if (_showFlightDetails)
+                      FlightDetailsWidget(travelModel: widget.travelModel),
+                    if (!_showFlightDetails)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
                           children: [
-                            Text('Your plans'),
-                            Spacer(),
-                            TextButton(
-                              onPressed: _addPlan,
-                              child: Text('Add a plan'),
+                            Row(
+                              children: [
+                                Text(
+                                  'Your plans',
+                                  style: HomeScreenTextStyle.partLabel,
+                                ),
+                                Spacer(),
+                                TextButton(
+                                  onPressed: _addPlan,
+                                  child: Text('Add a plan',
+                                      style: HomeScreenTextStyle.textButton),
+                                ),
+                              ],
                             ),
+                            if (_plans == null || _plans!.isEmpty)
+                              EmptyPlansBanner()
+                            else
+                              Container(
+                                height: size.height * 0.6,
+                                child: ListView.builder(
+                                  itemCount: _plans!.length,
+                                  itemBuilder: (context, index) {
+                                    final plan = _plans![index];
+                                    return PlanWidget(planModel: plan);
+                                  },
+                                ),
+                              ),
                           ],
                         ),
-                        if (_plans == null || _plans!.isEmpty)
-                          EmptyPlansBanner()
-                        else
-                          Container(
-                            height: size.height * 0.6,
-                            child: ListView.builder(
-                              itemCount: _plans!.length,
-                              itemBuilder: (context, index) {
-                                final plan = _plans![index];
-                                return PlanWidget(planModel: plan);
-                              },
-                            ),
-                          ),
-                      ],
-                    ),
-                ],
+                      ),
+                  ],
+                ),
               ),
             ),
           ),

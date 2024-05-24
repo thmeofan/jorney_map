@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
+import 'package:jorney_map/consts/app_text_styles/home_screen_text_style.dart';
 import 'package:jorney_map/views/app/widgets/chosen_action_button_widget.dart';
 import 'package:jorney_map/views/app/widgets/input_widget.dart';
 
@@ -31,7 +32,7 @@ class _DepartureScreenState extends State<DepartureScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Column(
+        title: Column(
           children: [
             Text(
               'New flight',
@@ -70,7 +71,10 @@ class _DepartureScreenState extends State<DepartureScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Departure from origin'),
+            Text(
+              'Departure from origin',
+              style: HomeScreenTextStyle.partLabel,
+            ),
             InputWidget(
               controller: countryController,
               labelText: 'Country of departure',
@@ -142,37 +146,50 @@ class _DepartureScreenState extends State<DepartureScreen> {
             ChosenActionButton(
               text: 'Next',
               onTap: () async {
-                final departureInfo = DepartureInfoModel(
-                  country: countryController.text,
-                  city: cityController.text,
-                  airport: airportController.text,
-                  date: selectedDate,
-                  time: selectedTime,
-                );
+                if (countryController.text.isEmpty ||
+                    cityController.text.isEmpty ||
+                    airportController.text.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: AppColors.whiteColor,
+                      content: Text(
+                        'Please fill in all the fields.',
+                        style: HomeScreenTextStyle.textButton,
+                      ),
+                    ),
+                  );
+                } else {
+                  final departureInfo = DepartureInfoModel(
+                    country: countryController.text,
+                    city: cityController.text,
+                    airport: airportController.text,
+                    date: selectedDate,
+                    time: selectedTime,
+                  );
 
-                final travelModel = TravelModel(
-                  departureInfo: departureInfo,
-                  arrivalInfo: ArrivalInfoModel(
-                    country: '',
-                    city: '',
-                    airport: '',
-                    date: DateTime.now(),
-                    time: TimeOfDay.now(),
-                  ),
-                  transfers: [],
-                );
+                  final travelModel = TravelModel(
+                    departureInfo: departureInfo,
+                    arrivalInfo: ArrivalInfoModel(
+                      country: '',
+                      city: '',
+                      airport: '',
+                      date: DateTime.now(),
+                      time: TimeOfDay.now(),
+                    ),
+                    transfers: [],
+                  );
 
-                final sharedPrefsService = SharedPrefsService();
-                final travelModelList =
-                    await sharedPrefsService.getTravelModelList();
-                travelModelList.add(travelModel);
-                await sharedPrefsService.saveTravelModelList(travelModelList);
+                  final sharedPrefsService = SharedPrefsService();
+                  final travelModelList =
+                      await sharedPrefsService.getTravelModelList();
+                  travelModelList.add(travelModel);
+                  await sharedPrefsService.saveTravelModelList(travelModelList);
 
-                // Navigate to the ArrivalScreen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ArrivalScreen()),
-                );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ArrivalScreen()),
+                  );
+                }
               },
             )
           ],
