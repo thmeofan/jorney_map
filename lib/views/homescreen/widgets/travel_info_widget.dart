@@ -23,7 +23,7 @@ class TravelInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.only(bottom: size.height * 0.02),
+      padding: EdgeInsets.only(bottom: size.height * 0.006),
       child: Column(
         children: [
           Container(
